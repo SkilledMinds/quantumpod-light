@@ -21,15 +21,15 @@ const linkStyle = {
 
 export default function Footer() {
   return (
-    <footer style={{ background: '#fafbff', position: 'relative' }}>
+    <footer className="site-footer" style={{ background: '#fafbff', position: 'relative' }}>
       {/* Top gradient separator */}
       <div style={{ height: '2px', background: 'linear-gradient(90deg, transparent 0%, #C00D55 20%, #003399 50%, #1A5FC1 80%, transparent 100%)', boxShadow: '0 0 10px rgba(0,51,153,0.25)' }} />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-14 py-14">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-14 py-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-8 xl:gap-12 mb-12">
 
           {/* Brand column */}
-          <div className="lg:col-span-1">
+          <div className="sm:col-span-2 xl:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <img src={logoImg} alt="QuantumPod Logo" style={{ height: '36px', width: 'auto', mixBlendMode: 'multiply' }} />
               <div>
@@ -54,7 +54,7 @@ export default function Footer() {
             <div key={heading}>
               <div className="flex items-center gap-2 mb-5">
                 <span style={{ width: '16px', height: '1.5px', background: '#C00D55', flexShrink: 0 }} />
-                <h4 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#003399' }}>
+                <h4 className="section-label" style={{ color: '#003399' }}>
                   {heading}
                 </h4>
               </div>
@@ -77,7 +77,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-5">
               <span style={{ width: '16px', height: '1.5px', background: '#C00D55', flexShrink: 0 }} />
-              <h4 style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#003399' }}>
+              <h4 className="section-label" style={{ color: '#003399' }}>
                 Contact
               </h4>
             </div>
@@ -120,12 +120,12 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8" style={{ borderTop: '1px solid rgba(0,51,153,0.08)' }}>
-          <p style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.44rem', fontWeight: 400, letterSpacing: '0.14em', color: '#9ca3af' }}>
+        <div className="flex flex-col lg:flex-row flex-wrap items-center justify-between gap-4 pt-8 text-center lg:text-left" style={{ borderTop: '1px solid rgba(0,51,153,0.08)' }}>
+          <p style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.75rem', fontWeight: 400, letterSpacing: '0.08em', color: '#9ca3af' }}>
             © {new Date().getFullYear()} QuantumPod Technologies. All rights reserved.
           </p>
           <div style={{ width: '60px', height: '1px', background: 'linear-gradient(90deg, #C00D55, #1A5FC1)' }} />
-          <p style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.44rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#003399' }}>
+          <p style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#003399' }}>
             Decode the Tech Future
           </p>
         </div>

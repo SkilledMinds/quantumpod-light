@@ -22,8 +22,9 @@ function Toast({ msg, type }) {
   const icons  = { success: CheckCircle2, error: XCircle, info: AlertCircle }
   const Icon   = icons[type] ?? AlertCircle
   return (
-    <div style={{
+    <div role="status" style={{
       position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999,
+      maxWidth: 'calc(100vw - 48px)', overflowWrap: 'anywhere',
       display: 'flex', alignItems: 'center', gap: '10px',
       background: '#ffffff',
       border: `1.5px solid ${colors[type]}`,
@@ -56,12 +57,12 @@ function LoginScreen({ onLogin }) {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: '#f5f8ff' }}>
+    <div className="admin-page min-h-screen flex items-center justify-center p-4" style={{ background: '#f5f8ff' }}>
       <div style={{
         background: '#ffffff',
         border: '1px solid rgba(0,51,153,0.12)',
         borderTop: `3px solid ${CRIMSON}`,
-        padding: '48px 40px',
+        padding: 'clamp(24px, 6vw, 48px) clamp(16px, 5vw, 40px)',
         width: '100%',
         maxWidth: '400px',
         boxShadow: '0 20px 60px rgba(0,20,80,0.1)',
@@ -70,7 +71,7 @@ function LoginScreen({ onLogin }) {
         <div className="flex items-center gap-2 mb-8">
           <Lock size={18} style={{ color: CRIMSON }} />
           <div>
-            <p style={{ fontFamily: FONT_ORB, fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.28em', textTransform: 'uppercase', color: CRIMSON }}>
+            <p style={{ fontFamily: FONT_ORB, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: CRIMSON }}>
               Admin Portal
             </p>
             <p style={{ fontFamily: FONT_ORB, fontSize: '0.9rem', fontWeight: 800, color: NAVY, letterSpacing: '0.04em' }}>
@@ -86,17 +87,20 @@ function LoginScreen({ onLogin }) {
               value={pw}
               onChange={e => { setPw(e.target.value); setErr('') }}
               placeholder="Enter admin password"
+              aria-label="Admin password"
               autoFocus
               style={{
                 width: '100%', boxSizing: 'border-box',
-                fontFamily: FONT_SG, fontSize: '0.95rem',
+                fontFamily: FONT_SG, fontSize: '1rem',
                 padding: '11px 42px 11px 14px',
                 border: err ? `1.5px solid ${CRIMSON}` : '1.5px solid rgba(0,51,153,0.2)',
-                outline: 'none', background: '#fafbff', color: '#1f2937',
+                background: '#fafbff', color: '#1f2937',
               }}
             />
             <button type="button" onClick={() => setShow(s => !s)}
-              style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', padding: 0 }}>
+              aria-label={show ? 'Hide password' : 'Show password'} aria-pressed={show}
+              className="flex min-w-11 min-h-11 items-center justify-center"
+              style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', padding: 0 }}>
               {show ? <EyeOff size={15} /> : <Eye size={15} />}
             </button>
           </div>
@@ -108,7 +112,7 @@ function LoginScreen({ onLogin }) {
           )}
 
           <button type="submit" style={{
-            fontFamily: FONT_ORB, fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.2em',
+            fontFamily: FONT_ORB, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.2em',
             textTransform: 'uppercase', color: '#ffffff', background: NAVY,
             border: `1.5px solid ${NAVY}`, padding: '12px', cursor: 'pointer',
             transition: 'all 0.2s',
@@ -158,12 +162,12 @@ function NewJobForm({ onCreated, onCancel }) {
   }
 
   const inputStyle = {
-    fontFamily: FONT_SG, fontSize: '0.9rem', color: '#1f2937',
+    fontFamily: FONT_SG, fontSize: '1rem', color: '#1f2937',
     padding: '9px 12px', width: '100%', boxSizing: 'border-box',
-    border: '1px solid rgba(0,51,153,0.2)', background: '#fafbff', outline: 'none',
+    border: '1px solid rgba(0,51,153,0.2)', background: '#fafbff',
   }
   const labelStyle = {
-    fontFamily: FONT_ORB, fontSize: '0.44rem', fontWeight: 700,
+    fontFamily: FONT_ORB, fontSize: '0.75rem', fontWeight: 700,
     letterSpacing: '0.2em', textTransform: 'uppercase', color: '#6b7280',
     display: 'block', marginBottom: '5px',
   }
@@ -173,7 +177,7 @@ function NewJobForm({ onCreated, onCancel }) {
       background: '#f5f8ff',
       border: '1px solid rgba(0,51,153,0.12)',
       borderLeft: `3px solid ${NAVY}`,
-      padding: '24px',
+      padding: 'clamp(16px, 3vw, 24px)',
       marginBottom: '24px',
     }}>
       <p style={{ fontFamily: FONT_ORB, fontSize: '0.7rem', fontWeight: 800, color: NAVY, letterSpacing: '0.04em', marginBottom: '20px' }}>
@@ -181,30 +185,31 @@ function NewJobForm({ onCreated, onCancel }) {
       </p>
 
       <form onSubmit={submit}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
-            <label style={labelStyle}>Job Title *</label>
-            <input style={inputStyle} value={form.title} onChange={set('title')} placeholder="e.g. Senior React Developer" />
+            <label htmlFor="job-title" style={labelStyle}>Job Title *</label>
+            <input id="job-title" style={inputStyle} value={form.title} onChange={set('title')} placeholder="e.g. Senior React Developer" />
           </div>
           <div>
-            <label style={labelStyle}>Department *</label>
-            <input style={inputStyle} value={form.department} onChange={set('department')} placeholder="e.g. Engineering" />
+            <label htmlFor="job-department" style={labelStyle}>Department *</label>
+            <input id="job-department" style={inputStyle} value={form.department} onChange={set('department')} placeholder="e.g. Engineering" />
           </div>
           <div>
-            <label style={labelStyle}>Location *</label>
-            <input style={inputStyle} value={form.location} onChange={set('location')} placeholder="e.g. Remote / Bangalore" />
+            <label htmlFor="job-location" style={labelStyle}>Location *</label>
+            <input id="job-location" style={inputStyle} value={form.location} onChange={set('location')} placeholder="e.g. Remote / Bangalore" />
           </div>
           <div>
-            <label style={labelStyle}>Employment Type</label>
-            <select style={{ ...inputStyle, cursor: 'pointer' }} value={form.type} onChange={set('type')}>
+            <label htmlFor="job-type" style={labelStyle}>Employment Type</label>
+            <select id="job-type" style={{ ...inputStyle, cursor: 'pointer' }} value={form.type} onChange={set('type')}>
               {JOB_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>
         </div>
 
         <div className="mb-5">
-          <label style={labelStyle}>Job Description</label>
+          <label htmlFor="job-description" style={labelStyle}>Job Description</label>
           <textarea
+            id="job-description"
             style={{ ...inputStyle, resize: 'vertical', minHeight: '120px', lineHeight: 1.7 }}
             value={form.description}
             onChange={set('description')}
@@ -218,11 +223,11 @@ function NewJobForm({ onCreated, onCancel }) {
           </p>
         )}
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button type="submit" disabled={saving}
             className="inline-flex items-center gap-2"
             style={{
-              fontFamily: FONT_ORB, fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.18em',
+              fontFamily: FONT_ORB, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em',
               textTransform: 'uppercase', color: '#ffffff', background: NAVY,
               border: `1.5px solid ${NAVY}`, padding: '10px 20px', cursor: saving ? 'not-allowed' : 'pointer',
               opacity: saving ? 0.7 : 1,
@@ -232,7 +237,7 @@ function NewJobForm({ onCreated, onCancel }) {
           </button>
           <button type="button" onClick={onCancel}
             style={{
-              fontFamily: FONT_ORB, fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.18em',
+              fontFamily: FONT_ORB, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em',
               textTransform: 'uppercase', color: '#6b7280', background: 'transparent',
               border: '1px solid rgba(0,0,0,0.15)', padding: '10px 20px', cursor: 'pointer',
             }}>
@@ -265,6 +270,7 @@ function JobRow({ job, onToggle, onDelete }) {
 
   const badgeBg = job.is_active ? '#e8f5e9' : '#fafafa'
   const badgeColor = job.is_active ? '#15803d' : '#9ca3af'
+  const toggleLabel = job.is_active ? 'Deactivate' : 'Activate'
 
   return (
     <>
@@ -272,6 +278,7 @@ function JobRow({ job, onToggle, onDelete }) {
         {/* Title */}
         <td style={{ padding: '14px 16px' }}>
           <button onClick={() => setExpanded(v => !v)}
+            aria-expanded={expanded}
             className="flex items-center gap-1.5 text-left"
             style={{ fontFamily: FONT_SG, fontWeight: 600, fontSize: '0.95rem', color: NAVY, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
             {expanded ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
@@ -297,7 +304,7 @@ function JobRow({ job, onToggle, onDelete }) {
         {/* Status badge */}
         <td style={{ padding: '14px 16px' }}>
           <span style={{
-            fontFamily: FONT_ORB, fontSize: '0.42rem', fontWeight: 700,
+            fontFamily: FONT_ORB, fontSize: '0.75rem', fontWeight: 700,
             letterSpacing: '0.18em', textTransform: 'uppercase',
             background: badgeBg, color: badgeColor,
             border: `1px solid ${badgeColor}40`,
@@ -312,7 +319,8 @@ function JobRow({ job, onToggle, onDelete }) {
           <div className="flex items-center gap-2">
             {/* Toggle active/inactive */}
             <button onClick={handleToggle} disabled={toggling}
-              title={job.is_active ? 'Deactivate' : 'Activate'}
+              title={toggleLabel}
+              aria-label={toggleLabel}
               style={{
                 background: 'none', border: 'none', cursor: toggling ? 'not-allowed' : 'pointer',
                 color: job.is_active ? '#9ca3af' : '#15803d', padding: '4px',
@@ -327,6 +335,7 @@ function JobRow({ job, onToggle, onDelete }) {
             {/* Delete */}
             <button onClick={handleDelete} disabled={deleting}
               title="Delete permanently"
+              aria-label="Delete job permanently"
               style={{
                 background: 'none', border: 'none', cursor: deleting ? 'not-allowed' : 'pointer',
                 color: CRIMSON, padding: '4px',
@@ -446,8 +455,8 @@ export default function AdminPage() {
 
   if (!supabase) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ fontFamily: FONT_SG }}>
-        <p role="alert">Jobs administration is unavailable. Configure Supabase and rebuild the site.</p>
+      <div className="min-h-screen flex items-center justify-center p-6 text-center" style={{ fontFamily: FONT_SG }}>
+        <p className="max-w-lg break-words" role="alert">Jobs administration is unavailable. Configure Supabase and rebuild the site.</p>
       </div>
     )
   }
@@ -455,39 +464,39 @@ export default function AdminPage() {
   if (!authed) return <LoginScreen onLogin={() => setAuthed(true)} />
 
   return (
-    <div className="min-h-screen" style={{ background: '#f5f8ff', fontFamily: FONT_SG }}>
+    <div className="admin-page min-h-screen" style={{ background: '#f5f8ff', fontFamily: FONT_SG }}>
       <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
       <Toast msg={toast.msg} type={toast.type} />
 
       {/* Admin topbar */}
-      <header style={{
+      <header className="flex flex-wrap gap-3" style={{
         background: '#ffffff',
         borderBottom: '1px solid rgba(0,51,153,0.1)',
-        height: '60px',
+        minHeight: '60px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '0 24px',
+        padding: '12px 16px',
         position: 'sticky',
         top: 0,
         zIndex: 50,
       }}>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <Lock size={14} style={{ color: CRIMSON }} />
-          <span style={{ fontFamily: FONT_ORB, fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: NAVY }}>
+          <span style={{ fontFamily: FONT_ORB, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: NAVY }}>
             QP Admin
           </span>
           <span style={{ width: '1px', height: '16px', background: 'rgba(0,51,153,0.15)' }} />
-          <span style={{ fontFamily: FONT_ORB, fontSize: '0.48rem', letterSpacing: '0.15em', color: '#9ca3af' }}>
+          <span style={{ fontFamily: FONT_ORB, fontSize: '0.75rem', letterSpacing: '0.08em', color: '#9ca3af' }}>
             Jobs Management
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           {/* Link to public careers page */}
           <a href={`${import.meta.env.BASE_URL}careers`} target="_blank" rel="noopener noreferrer"
             style={{
-              fontFamily: FONT_ORB, fontSize: '0.46rem', fontWeight: 700, letterSpacing: '0.16em',
+              fontFamily: FONT_ORB, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em',
               textTransform: 'uppercase', color: BLUE, textDecoration: 'none',
             }}>
             View Public Page ↗
@@ -495,7 +504,7 @@ export default function AdminPage() {
           <button onClick={logout}
             className="flex items-center gap-1.5"
             style={{
-              fontFamily: FONT_ORB, fontSize: '0.46rem', fontWeight: 700, letterSpacing: '0.16em',
+              fontFamily: FONT_ORB, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em',
               textTransform: 'uppercase', color: '#6b7280', background: 'none',
               border: '1px solid rgba(0,0,0,0.12)', padding: '6px 12px', cursor: 'pointer',
             }}>
@@ -504,7 +513,7 @@ export default function AdminPage() {
         </div>
       </header>
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px 24px' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px clamp(16px, 3vw, 24px)' }}>
 
         {/* Page heading + stats */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
@@ -521,7 +530,7 @@ export default function AdminPage() {
             onClick={() => setShowForm(v => !v)}
             className="inline-flex items-center gap-2"
             style={{
-              fontFamily: FONT_ORB, fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.18em',
+              fontFamily: FONT_ORB, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em',
               textTransform: 'uppercase', color: '#ffffff', background: showForm ? '#6b7280' : NAVY,
               border: `1.5px solid ${showForm ? '#6b7280' : NAVY}`, padding: '11px 22px', cursor: 'pointer',
               transition: 'all 0.2s',
@@ -544,12 +553,13 @@ export default function AdminPage() {
           <input
             type="text"
             placeholder="Search by title, department, or location..."
+            aria-label="Search jobs"
             value={search}
             onChange={e => setSearch(e.target.value)}
             style={{
-              fontFamily: FONT_SG, fontSize: '0.9rem', color: '#1f2937',
+              fontFamily: FONT_SG, fontSize: '1rem', color: '#1f2937',
               padding: '9px 14px', width: '100%', maxWidth: '380px', boxSizing: 'border-box',
-              border: '1px solid rgba(0,51,153,0.18)', background: '#ffffff', outline: 'none',
+              border: '1px solid rgba(0,51,153,0.18)', background: '#ffffff',
             }}
           />
         </div>
@@ -569,15 +579,15 @@ export default function AdminPage() {
               {search ? 'No jobs match your search.' : 'No jobs yet — post your first one above.'}
             </div>
           ) : (
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div className="admin-table-scroll" role="region" aria-label="Job postings table (scroll horizontally)" tabIndex={0}>
+              <table style={{ width: '100%', minWidth: '760px', tableLayout: 'fixed', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr style={{ background: '#f5f8ff', borderBottom: '2px solid rgba(0,51,153,0.1)' }}>
                     {['Title', 'Department', 'Location', 'Type', 'Status', 'Actions'].map(h => (
                       <th key={h} style={{
                         padding: '11px 16px', textAlign: 'left',
-                        fontFamily: FONT_ORB, fontSize: '0.44rem', fontWeight: 700,
-                        letterSpacing: '0.22em', textTransform: 'uppercase', color: '#6b7280',
+                        fontFamily: FONT_ORB, fontSize: '0.75rem', fontWeight: 700,
+                        letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6b7280',
                       }}>
                         {h}
                       </th>

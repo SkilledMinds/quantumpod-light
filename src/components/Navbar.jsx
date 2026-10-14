@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Menu, X, ChevronDown, ArrowRight, Server, Package, Users, TrendingUp } from 'lucide-react'
 import logoImg from '../images/logo.png'
@@ -60,16 +60,39 @@ export default function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false)
   const [hoveredItem, setHoveredItem] = useState(null)
   const closeTimer = useRef(null)
+  const mobileToggle = useRef(null)
+  const servicesToggle = useRef(null)
   const location   = useLocation()
   const navigate   = useNavigate()
 
   const openServices = () => { clearTimeout(closeTimer.current); setServicesOpen(true) }
-  const closeServices = () => { closeTimer.current = setTimeout(() => setServicesOpen(false), 120) }
+  const closeServices = e => {
+    const group = e.currentTarget
+    closeTimer.current = setTimeout(() => {
+      if (!group.contains(document.activeElement)) setServicesOpen(false)
+    }, 120)
+  }
+
+  useEffect(() => {
+    setMobileOpen(false)
+    setServicesOpen(false)
+  }, [location])
+
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1024px)')
+    const closeMenus = () => { setMobileOpen(false); setServicesOpen(false) }
+    desktop.addEventListener('change', closeMenus)
+    return () => {
+      desktop.removeEventListener('change', closeMenus)
+      clearTimeout(closeTimer.current)
+    }
+  }, [])
 
   /* Navigate to a hash section — scrolls in-page when on '/', navigates to '/#section' from other routes */
   const goToSection = (section, extras = {}) => e => {
     e.preventDefault()
     const { closeMobile = false, closeDropdown = false } = extras
+    setMobileOpen(false)
     if (closeMobile)   setMobileOpen(false)
     if (closeDropdown) setServicesOpen(false)
     if (location.pathname === '/') {
@@ -80,19 +103,26 @@ export default function Navbar() {
   }
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-white" style={{ height: '64px' }}>
+    <header className="fixed top-0 inset-x-0 z-50 bg-white" style={{ height: '64px' }}
+      onKeyDown={e => {
+        if (e.key !== 'Escape') return
+        if (mobileOpen) { setMobileOpen(false); mobileToggle.current?.focus() }
+        if (servicesOpen) { setServicesOpen(false); servicesToggle.current?.focus() }
+      }}>
       {/* Tech gradient separator */}
       <div className="absolute bottom-0 inset-x-0" style={{ height: '2px', background: 'linear-gradient(90deg, transparent 0%, #C00D55 20%, #003399 50%, #1A5FC1 80%, transparent 100%)', boxShadow: '0 0 12px 1px rgba(0,51,153,0.45), 0 0 4px rgba(192,13,85,0.35)' }} />
 
-      <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 h-full flex items-center justify-between gap-2">
 
         {/* Logo */}
-        <a href={`${import.meta.env.BASE_URL}#home`} onClick={goToSection('home')} className="flex items-center gap-2">
-          <img src={logoImg} alt="QuantumPod Logo" className="h-8 w-auto" style={{ mixBlendMode: 'multiply' }} />
-          <span className="uppercase leading-none" style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: '1.05rem', background: 'linear-gradient(135deg, #0A3F8A 0%, #1A5FC1 45%, #3a7bd5 70%, #0A3F8A 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', letterSpacing: '0.06em' }}>
+        <a href={`${import.meta.env.BASE_URL}#home`} onClick={goToSection('home')} className="navbar-brand flex items-center gap-2 min-w-0">
+          <img src={logoImg} alt="QuantumPod Logo" className="h-8 w-auto shrink-0" style={{ mixBlendMode: 'multiply' }} />
+          <span className="navbar-brand-copy">
+          <span className="navbar-brand-name uppercase leading-none" style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, background: 'linear-gradient(135deg, #0A3F8A 0%, #1A5FC1 45%, #3a7bd5 70%, #0A3F8A 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', letterSpacing: '0.06em' }}>
             QUANTUMPOD
           </span>
           <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.48rem', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#9ca3af' }}>Technologies</span>
+          </span>
         </a>
 
         {/* Desktop nav */}
@@ -109,8 +139,14 @@ export default function Navbar() {
           </a>
 
           {/* Services with dropdown — dropdown is positioned relative to the full header to avoid viewport overflow */}
-          <div className="static" onMouseEnter={openServices} onMouseLeave={closeServices}>
+          <div className="static" onMouseEnter={openServices} onMouseLeave={closeServices}
+            onFocus={() => clearTimeout(closeTimer.current)}
+            onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setServicesOpen(false) }}>
             <button
+              ref={servicesToggle}
+              aria-expanded={servicesOpen}
+              aria-controls="services-menu"
+              onClick={() => { clearTimeout(closeTimer.current); setServicesOpen(v => !v) }}
               style={{ ...navLinkStyle, color: servicesOpen || hoveredItem === 'Services' ? '#C00D55' : '#003399', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
               onMouseEnter={() => setHoveredItem('Services')}
               onMouseLeave={() => setHoveredItem(null)}
@@ -123,7 +159,8 @@ export default function Navbar() {
             {/* ── Mega dropdown ── */}
             {servicesOpen && (
               <div
-                className="fixed z-50"
+                id="services-menu"
+                className="fixed z-50 max-h-[calc(100dvh-64px)] overflow-y-auto"
                 style={{
                   top: '64px',
                   left: '50%',
@@ -135,7 +172,6 @@ export default function Navbar() {
                   borderImage: 'linear-gradient(90deg, #C00D55, #003399, #1A5FC1) 1',
                   boxShadow: '0 20px 60px rgba(0,20,80,0.12), 0 4px 16px rgba(0,51,153,0.08)',
                   padding: '0',
-                  overflow: 'hidden',
                 }}
               >
                 {/* Dropdown header */}
@@ -246,40 +282,44 @@ export default function Navbar() {
         </nav>
 
         {/* Mobile burger */}
-        <button className="lg:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)} style={{ color: '#003399' }}>
+        <button ref={mobileToggle} className="lg:hidden p-2 min-w-11 min-h-11 shrink-0"
+          aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={mobileOpen} aria-controls="mobile-navigation"
+          onClick={() => setMobileOpen(!mobileOpen)} style={{ color: '#003399' }}>
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden absolute top-16 inset-x-0 shadow-lg px-6 py-5 flex flex-col gap-1" style={{ background: '#ffffff', borderTop: '1px solid rgba(0,51,153,0.1)' }}>
+        <nav id="mobile-navigation" aria-label="Mobile navigation"
+          className="mobile-navigation lg:hidden absolute top-16 inset-x-0 shadow-lg px-6 py-5 flex flex-col gap-1" style={{ background: '#ffffff', borderTop: '1px solid rgba(0,51,153,0.1)' }}>
           {['Home', 'About', 'Contact'].map(label => (
             <a key={label} href={`/#${label.toLowerCase()}`}
               onClick={goToSection(label.toLowerCase(), { closeMobile: true })}
-              style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#003399', padding: '10px 0', borderBottom: '1px solid rgba(0,51,153,0.07)', textDecoration: 'none', display: 'block' }}>
+              style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#003399', padding: '10px 0', borderBottom: '1px solid rgba(0,51,153,0.07)', textDecoration: 'none', display: 'block' }}>
               {label}
             </a>
           ))}
           <Link to="/careers" onClick={() => setMobileOpen(false)}
-            style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#003399', padding: '10px 0', borderBottom: '1px solid rgba(0,51,153,0.07)', textDecoration: 'none', display: 'block' }}>
+            style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#003399', padding: '10px 0', borderBottom: '1px solid rgba(0,51,153,0.07)', textDecoration: 'none', display: 'block' }}>
             Careers
           </Link>
           <div className="pl-3 mt-1 flex flex-col gap-0.5">
           {SERVICES.map(s => (
             <a key={s.label} href={`/#${s.section}`}
               onClick={goToSection(s.section, { closeMobile: true })}
-              style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.52rem', fontWeight: 600, letterSpacing: '0.16em', color: s.accent, padding: '7px 0', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.16em', color: s.accent, padding: '7px 0', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span style={{ width: '12px', height: '1.5px', background: s.accent, flexShrink: 0 }} />{s.label}
             </a>
           ))}
           </div>
           <a href={`${import.meta.env.BASE_URL}#contact`} onClick={goToSection('contact', { closeMobile: true })}
             className="mt-3 text-center inline-flex items-center justify-center gap-2"
-            style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.18em', color: '#ffffff', padding: '11px', background: '#C00D55', textDecoration: 'none' }}>
+            style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.18em', color: '#ffffff', padding: '11px', background: '#C00D55', textDecoration: 'none' }}>
             Get Started <ArrowRight size={11} />
           </a>
-        </div>
+        </nav>
       )}
     </header>
   )

@@ -52,34 +52,40 @@ const INTERVAL_MS = 5000
 export default function HeroSlider() {
   const [active, setActive]     = useState(0)
   const [paused, setPaused]     = useState(false)
-  const [animDir, setAnimDir]   = useState('next') // 'next' | 'prev'
+  const [focusPaused, setFocusPaused] = useState(false)
   const [visible, setVisible]   = useState(true)
   const timerRef                = useRef(null)
+  const transitionRef           = useRef(null)
   const slide                   = SLIDES[active]
 
-  const goTo = useCallback((idx, dir = 'next') => {
-    setAnimDir(dir)
+  const goTo = useCallback(idx => {
+    clearTimeout(transitionRef.current)
     setVisible(false)
-    setTimeout(() => {
+    transitionRef.current = setTimeout(() => {
       setActive(idx)
       setVisible(true)
     }, 220)
   }, [])
 
-  const next = useCallback(() => goTo((active + 1) % SLIDES.length, 'next'), [active, goTo])
-  const prev = useCallback(() => goTo((active - 1 + SLIDES.length) % SLIDES.length, 'prev'), [active, goTo])
+  const next = useCallback(() => goTo((active + 1) % SLIDES.length), [active, goTo])
+  const prev = useCallback(() => goTo((active - 1 + SLIDES.length) % SLIDES.length), [active, goTo])
 
   useEffect(() => {
-    if (paused) { clearInterval(timerRef.current); return }
+    if (paused || focusPaused) { clearInterval(timerRef.current); return }
     timerRef.current = setInterval(next, INTERVAL_MS)
     return () => clearInterval(timerRef.current)
-  }, [paused, next])
+  }, [paused, focusPaused, next])
+
+  useEffect(() => () => clearTimeout(transitionRef.current), [])
 
   return (
     <section
       id="home"
-      className="relative overflow-hidden cursor-pointer"
-      style={{ marginTop: '64px', height: 'calc(100dvh - 64px)' }}
+      className="hero-slider relative overflow-hidden cursor-pointer"
+      aria-label="QuantumPod services carousel"
+      aria-roledescription="carousel"
+      onFocusCapture={() => setFocusPaused(true)}
+      onBlurCapture={e => { if (!e.currentTarget.contains(e.relatedTarget)) setFocusPaused(false) }}
       onClick={() => setPaused(p => !p)}
     >
 
@@ -106,8 +112,7 @@ export default function HeroSlider() {
 
       {/* ── Main content block — bottom left ── */}
       <div
-        className="absolute bottom-0 left-0 right-0 lg:right-auto z-20 px-8 lg:px-14 pb-12 lg:pb-16"
-        style={{ maxWidth: 'min(760px, 72vw)', width: '100%' }}
+        className="hero-content relative z-20 px-4 sm:px-8 lg:px-14 pb-10 lg:pb-16"
       >
         {/* Label tag — solid accent pill box, title only */}
         <div
@@ -123,7 +128,7 @@ export default function HeroSlider() {
           }}>
             <span style={{
               fontFamily: "'Orbitron', sans-serif",
-              fontSize: '0.52rem',
+              fontSize: '0.75rem',
               fontWeight: 700,
               letterSpacing: '0.28em',
               textTransform: 'uppercase',
@@ -174,7 +179,7 @@ export default function HeroSlider() {
               letterSpacing: '0.01em',
               lineHeight: 1.75,
               margin: 0,
-              textAlign: 'justify',
+              textAlign: 'left',
               textAlignLast: 'left',
             }}>
               {slide.description}
@@ -185,7 +190,7 @@ export default function HeroSlider() {
 
         {/* CTA + nav arrows */}
         <div
-          className="flex items-center gap-5"
+          className="flex flex-wrap items-center gap-4"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? 'translateY(0)' : 'translateY(12px)',
@@ -195,11 +200,11 @@ export default function HeroSlider() {
           <a
             href="#contact"
             onClick={e => e.stopPropagation()}
-            className="inline-flex items-center gap-2.5 font-bold transition-all duration-200 group"
+            className="inline-flex min-h-11 max-w-full items-center gap-2.5 font-bold transition-all duration-200 group"
             style={{
               fontFamily: "'Orbitron', sans-serif",
               letterSpacing: '0.14em',
-              fontSize: '0.58rem',
+              fontSize: '0.75rem',
               padding: '11px 24px',
               background: slide.accent,
               border: `1.5px solid ${slide.accent}`,
@@ -214,27 +219,40 @@ export default function HeroSlider() {
           </a>
 
           {/* Thin separator */}
-          <span style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.18)' }} />
+          <span className="hidden sm:block" style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.18)' }} />
 
           {/* prev/next */}
-          <div className="flex items-center gap-1">
+          <div className="flex flex-wrap items-center gap-2">
             <button
+              aria-label="Previous slide"
               onClick={e => { e.stopPropagation(); prev() }}
-              className="flex items-center justify-center transition-all duration-200"
-              style={{ color: 'rgba(255,255,255,0.45)', padding: '6px', border: '1px solid rgba(255,255,255,0.15)' }}
+              className="flex min-w-11 min-h-11 items-center justify-center transition-all duration-200"
+              style={{ color: 'rgba(255,255,255,0.85)', padding: '6px', border: '1px solid rgba(255,255,255,0.3)' }}
               onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.borderColor = slide.accent }}
-              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)' }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
             >
               <ChevronLeft size={18} strokeWidth={2} />
             </button>
             <button
+              aria-label="Next slide"
               onClick={e => { e.stopPropagation(); next() }}
-              className="flex items-center justify-center transition-all duration-200"
-              style={{ color: 'rgba(255,255,255,0.45)', padding: '6px', border: '1px solid rgba(255,255,255,0.15)' }}
+              className="flex min-w-11 min-h-11 items-center justify-center transition-all duration-200"
+              style={{ color: 'rgba(255,255,255,0.85)', padding: '6px', border: '1px solid rgba(255,255,255,0.3)' }}
               onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; e.currentTarget.style.borderColor = slide.accent }}
-              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)' }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
             >
               <ChevronRight size={18} strokeWidth={2} />
+            </button>
+            <button
+              aria-label={paused ? 'Resume slideshow' : 'Pause slideshow'}
+              aria-pressed={paused}
+              className="min-h-11 px-3 text-sm text-white border border-white/30"
+              onClick={e => {
+                e.stopPropagation()
+                if (paused) setFocusPaused(false)
+                setPaused(p => !p)
+              }}>
+              {paused ? 'Resume' : 'Pause'}
             </button>
           </div>
         </div>
@@ -242,7 +260,7 @@ export default function HeroSlider() {
 
       {/* ── Bottom progress line (full width, no dots) ── */}
       <div className="absolute bottom-0 inset-x-0 z-20" style={{ height: '3px', background: 'rgba(255,255,255,0.12)' }}>
-        {!paused && (
+        {!paused && !focusPaused && (
           <div
             key={`${active}-${paused}`}
             style={{

@@ -4,14 +4,14 @@ import Navbar from '../components/Navbar'
 
 export default function ITOutsourcingPage() {
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="outsourcing-page min-h-screen bg-white font-sans pt-16">
       <Navbar />
       <section style={{ background: 'linear-gradient(135deg, #000a28 0%, #001040 50%, #000a28 100%)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ height: '2px', background: 'linear-gradient(90deg, transparent 0%, #C00D55 20%, #003399 50%, #1A5FC1 80%, transparent 100%)', boxShadow: '0 0 12px rgba(0,51,153,0.5)' }} />
         <div className="max-w-7xl mx-auto px-6 lg:px-14 py-16 lg:py-20 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             <span style={{ width: '20px', height: '1px', background: '#C00D55', flexShrink: 0 }} />
-            <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.4rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C00D55' }}>Vertical</span>
+            <span className="section-label" style={{ color: '#C00D55' }}>Vertical</span>
             <span style={{ width: '20px', height: '1px', background: '#C00D55', flexShrink: 0 }} />
           </div>
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', letterSpacing: '-0.02em', color: '#ffffff', lineHeight: 1.2, marginBottom: '16px' }}>
@@ -29,7 +29,7 @@ export default function ITOutsourcingPage() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span style={{ width: '20px', height: '1px', background: '#C00D55', flexShrink: 0 }} />
-                <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.4rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C00D55' }}>Our Services</span>
+                <span className="section-label" style={{ color: '#C00D55' }}>Our Services</span>
               </div>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', letterSpacing: '-0.02em', color: '#003399', lineHeight: 1.2, marginBottom: '16px' }}>
                 Comprehensive Recruitment Solutions
@@ -59,7 +59,7 @@ export default function ITOutsourcingPage() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span style={{ width: '20px', height: '1px', background: '#C00D55', flexShrink: 0 }} />
-                <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.4rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C00D55' }}>Industries & Hiring Models</span>
+                <span className="section-label" style={{ color: '#C00D55' }}>Industries & Hiring Models</span>
               </div>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', letterSpacing: '-0.02em', color: '#003399', lineHeight: 1.2, marginBottom: '16px' }}>
                 Across Diverse Sectors
@@ -77,7 +77,7 @@ export default function ITOutsourcingPage() {
               </div>
               <div>
                 <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.9rem', fontWeight: 600, color: '#003399', marginBottom: '12px' }}>Hiring Models</h3>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {['Permanent Hiring', 'Contract Staffing', 'Contract-to-Hire (C2H)', 'Contract-to-Contract (C2C)', 'Project-Based Hiring', 'Zero-Cost Fresher Hiring', 'Bulk Hiring', 'Leadership Hiring'].map((model, i) => (
                     <div key={i} className="flex items-center gap-2 p-3" style={{ background: '#fafbff', border: '1px solid rgba(0,51,153,0.08)', borderRadius: '4px' }}>
                       <CheckCircle2 size={12} style={{ color: '#C00D55', flexShrink: 0 }} />
@@ -96,7 +96,7 @@ export default function ITOutsourcingPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-14 py-16 lg:py-20">
           <div className="flex items-center gap-3 mb-4">
             <span style={{ width: '20px', height: '1px', background: '#C00D55', flexShrink: 0 }} />
-            <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.4rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C00D55' }}>Our Hiring Approach</span>
+            <span className="section-label" style={{ color: '#C00D55' }}>Our Hiring Approach</span>
           </div>
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', letterSpacing: '-0.02em', color: '#003399', lineHeight: 1.2, marginBottom: '16px' }}>
             A Proven Recruitment Methodology
@@ -104,7 +104,7 @@ export default function ITOutsourcingPage() {
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.95rem', fontWeight: 400, letterSpacing: '0em', lineHeight: 1.7, color: '#757575', maxWidth: '700px', marginBottom: '24px' }}>
             Our 10-step process ensures we deliver exceptional talent that drives your business forward:
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 min-[375px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
             {['Requirement Discovery', 'Talent Strategy', 'Candidate Sourcing', 'AI + Recruiter Screening', 'Technical Assessment', 'Interview Coordination', 'Offer Management', 'Background Verification', 'Onboarding Support', 'Post-Joining Engagement'].map((step, i) => (
               <div key={i} className="text-center p-4" style={{ background: '#ffffff', border: '1px solid rgba(0,51,153,0.08)', borderRadius: '6px' }}>
                 <div className="flex items-center justify-center w-8 h-8 mx-auto mb-2" style={{ background: '#C00D55', borderRadius: '50%' }}>
@@ -123,7 +123,7 @@ export default function ITOutsourcingPage() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span style={{ width: '20px', height: '1px', background: '#C00D55', flexShrink: 0 }} />
-                <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.4rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C00D55' }}>Why QuantumPod is Different</span>
+                <span className="section-label" style={{ color: '#C00D55' }}>Why QuantumPod is Different</span>
               </div>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', letterSpacing: '-0.02em', color: '#003399', lineHeight: 1.2, marginBottom: '16px' }}>
                 The Recruitment Partner Built for Modern Businesses
@@ -156,7 +156,7 @@ export default function ITOutsourcingPage() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <span style={{ width: '20px', height: '1px', background: '#C00D55', flexShrink: 0 }} />
-                <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.4rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C00D55' }}>QuantumPod by the Numbers</span>
+                <span className="section-label" style={{ color: '#C00D55' }}>QuantumPod by the Numbers</span>
               </div>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', letterSpacing: '-0.02em', color: '#003399', lineHeight: 1.2, marginBottom: '16px' }}>
                 Delivering Measurable Hiring Success
@@ -164,7 +164,7 @@ export default function ITOutsourcingPage() {
               <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.95rem', fontWeight: 400, letterSpacing: '0em', lineHeight: 1.7, color: '#757575', marginBottom: '20px' }}>
                 Our track record speaks for itself with measurable outcomes across every engagement. We consistently deliver results that exceed expectations through our commitment to quality, transparency, and exceptional service delivery.
               </p>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 min-[375px]:grid-cols-2 gap-4">
                 {[
                   { value: '500+', label: 'Professionals Placed' },
                   { value: '40+', label: 'Countries Supported' },
@@ -191,7 +191,7 @@ export default function ITOutsourcingPage() {
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.95rem', fontWeight: 400, letterSpacing: '0em', lineHeight: 1.7, color: '#757575', maxWidth: '500px', margin: '0 auto 24px' }}>
             Partner with QuantumPod and experience recruitment excellence at scale.
           </p>
-          <Link to="/#contact" className="inline-flex items-center gap-2 transition-all duration-200 group" style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#ffffff', padding: '12px 24px', background: '#C00D55', border: '1.5px solid #C00D55', textDecoration: 'none' }} onMouseEnter={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#C00D55' }} onMouseLeave={e => { e.currentTarget.style.background = '#C00D55'; e.currentTarget.style.color = '#ffffff' }}>
+          <Link to="/#contact" className="inline-flex min-h-11 max-w-full items-center gap-2 transition-all duration-200 group" style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#ffffff', padding: '12px 24px', background: '#C00D55', border: '1.5px solid #C00D55', textDecoration: 'none' }} onMouseEnter={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#C00D55' }} onMouseLeave={e => { e.currentTarget.style.background = '#C00D55'; e.currentTarget.style.color = '#ffffff' }}>
             Get Started Today <ArrowRight size={12} />
           </Link>
         </div>

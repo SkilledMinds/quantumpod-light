@@ -44,7 +44,7 @@ export default function StatsBar() {
         <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
           <div className="flex items-center gap-3">
             <span style={{ width: '28px', height: '2px', background: '#C00D55', flexShrink: 0 }} />
-            <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C00D55' }}>
+            <span className="section-label" style={{ color: '#C00D55' }}>
               Trusted By
             </span>
           </div>

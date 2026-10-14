@@ -47,14 +47,14 @@ const VERTICALS = [
 export default function VerticalsSection() {
   return (
     <section id="services" style={{ background: '#ffffff', position: 'relative' }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-14 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-14 py-12 sm:py-20">
 
         {/* Section header */}
         <div className="flex items-start justify-between mb-14 flex-wrap gap-6">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <span style={{ width: '28px', height: '2px', background: '#C00D55', flexShrink: 0 }} />
-              <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.52rem', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#C00D55' }}>
+              <span className="section-label" style={{ color: '#C00D55' }}>
                 What We Do
               </span>
             </div>
@@ -69,15 +69,13 @@ export default function VerticalsSection() {
 
         {/* Four vertical cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0" style={{ border: '1px solid rgba(0,51,153,0.1)' }}>
-          {VERTICALS.map((v, i) => {
+          {VERTICALS.map(v => {
             const Icon = v.icon
             return (
               <div
                 key={v.label}
-                className="flex flex-col p-8 transition-all duration-300 group"
+                className="vertical-card min-w-0 flex flex-col p-5 sm:p-8 transition-all duration-300 group"
                 style={{
-                  borderRight: (i % 2 === 0) ? '1px solid rgba(0,51,153,0.1)' : 'none',
-                  borderBottom: i < 2 ? '1px solid rgba(0,51,153,0.1)' : 'none',
                   borderTop: `3px solid ${v.accent}`,
                   position: 'relative',
                   background: '#ffffff',
@@ -87,10 +85,10 @@ export default function VerticalsSection() {
               >
                 {/* Icon + Label tag — accent box, label only (no "Vertical 0X" prefix) */}
                 <div className="flex items-center gap-2 mb-5">
-                  <div className="flex items-center justify-center w-8 h-8" style={{ background: `${v.accent}12`, border: `1px solid ${v.accent}30` }}>
+                  <div className="flex items-center justify-center w-8 h-8 shrink-0" style={{ background: `${v.accent}12`, border: `1px solid ${v.accent}30` }}>
                     <Icon size={15} style={{ color: v.accent }} strokeWidth={1.8} />
                   </div>
-                  <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.46rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: v.accent }}>
+                  <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: v.accent }}>
                     {v.label}
                   </span>
                 </div>
@@ -104,7 +102,7 @@ export default function VerticalsSection() {
                 <div style={{ width: '32px', height: '1px', background: v.accent, marginBottom: '16px', opacity: 0.5 }} />
 
                 {/* Description */}
-                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.92rem', fontWeight: 400, letterSpacing: '0em', lineHeight: 1.7, color: '#757575', marginBottom: '20px', flexGrow: 1, textAlign: 'justify', textAlignLast: 'left' }}>
+                <p className="text-left lg:text-justify" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.92rem', fontWeight: 400, letterSpacing: '0em', lineHeight: 1.7, color: '#757575', marginBottom: '20px', flexGrow: 1, textAlignLast: 'left' }}>
                   {v.desc}
                 </p>
 
@@ -113,7 +111,7 @@ export default function VerticalsSection() {
                   {v.metrics.map(m => (
                     <div key={m} className="flex items-center gap-2">
                       <CheckCircle size={12} style={{ color: v.accent, flexShrink: 0 }} strokeWidth={2.5} />
-                      <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#404040' }}>{m}</span>
+                      <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#404040' }}>{m}</span>
                     </div>
                   ))}
                 </div>
@@ -121,8 +119,8 @@ export default function VerticalsSection() {
                 {/* CTA */}
                 <Link
                   to={v.href}
-                  className="inline-flex items-center gap-2.5 transition-all duration-200"
-                  style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: v.accent, textDecoration: 'none', borderBottom: `2px solid ${v.accent}40`, paddingBottom: '4px', paddingTop: '2px', width: 'fit-content' }}
+                  className="inline-flex min-h-11 items-center gap-2.5 transition-all duration-200"
+                  style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: v.accent, textDecoration: 'none', borderBottom: `2px solid ${v.accent}40`, paddingBottom: '4px', paddingTop: '2px', width: 'fit-content' }}
                   onMouseEnter={e => { e.currentTarget.style.borderBottomColor = v.accent; e.currentTarget.style.paddingBottom = '6px' }}
                   onMouseLeave={e => { e.currentTarget.style.borderBottomColor = `${v.accent}40`; e.currentTarget.style.paddingBottom = '4px' }}
                 >
