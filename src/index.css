@@ -12,6 +12,8 @@
     -webkit-font-smoothing: antialiased;
   }
   a { text-decoration: none; }
+  :focus-visible { outline: 2px solid #1A5FC1; outline-offset: 3px; }
+  section[id] { scroll-margin-top: 64px; }
 }
 
 @layer utilities {
@@ -37,4 +39,53 @@
 }
 .animate-fade-in {
   animation: fadeIn 0.35s ease forwards;
+}
+
+.navbar-brand-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.navbar-brand-name { font-size: clamp(0.8rem, 3.5vw, 1.05rem); }
+.mobile-navigation {
+  max-height: calc(100dvh - 64px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.mobile-navigation a { min-height: 44px; }
+.hero-slider {
+  margin-top: 64px;
+  min-height: calc(100dvh - 64px);
+  display: flex;
+  align-items: flex-end;
+}
+.hero-content {
+  width: 100%;
+  padding-top: clamp(48px, 12vh, 120px);
+}
+.section-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.vertical-card:not(:last-child) { border-bottom: 1px solid rgba(0,51,153,0.1); }
+.site-footer a { min-height: 44px; display: flex; align-items: center; }
+.site-footer a, .contact-section a { overflow-wrap: anywhere; }
+.contact-section svg { flex-shrink: 0; }
+.job-card, .careers-page, .outsourcing-page { overflow-wrap: anywhere; }
+.job-card svg { flex-shrink: 0; }
+.admin-page { overflow-wrap: anywhere; }
+.admin-page button, .admin-page header a { min-height: 44px; }
+.admin-page td button { min-width: 44px; }
+.admin-page svg { flex-shrink: 0; }
+.admin-table-scroll { overflow-x: auto; }
+.admin-table-scroll td { overflow-wrap: anywhere; }
+
+@media (min-width: 1024px) {
+  .navbar-brand-copy { flex-direction: row; align-items: center; gap: 8px; }
+  .hero-content { max-width: min(760px, 72vw); }
+  .vertical-card:nth-child(odd) { border-right: 1px solid rgba(0,51,153,0.1); }
+  .vertical-card:nth-last-child(-n+2) { border-bottom: 0; }
 }

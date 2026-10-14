@@ -19,7 +19,7 @@ function JobCard({ job }) {
   const badge = typeBadge(job.type)
 
   return (
-    <div
+    <div className="job-card"
       style={{
         border: '1px solid rgba(0,51,153,0.1)',
         borderTop: `3px solid ${badge.color}`,
@@ -31,7 +31,8 @@ function JobCard({ job }) {
     >
       {/* Card header — always visible */}
       <button
-        className="w-full text-left px-6 py-5 flex items-start justify-between gap-4"
+        className="w-full text-left px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-start justify-between gap-4"
+        aria-expanded={expanded}
         onClick={() => setExpanded(v => !v)}
       >
         <div className="flex-1 min-w-0">
@@ -52,9 +53,9 @@ function JobCard({ job }) {
             {/* Department */}
             <span className="flex items-center gap-1.5" style={{
               fontFamily: "'Orbitron', sans-serif",
-              fontSize: '0.48rem',
+              fontSize: '0.75rem',
               fontWeight: 700,
-              letterSpacing: '0.18em',
+              letterSpacing: '0.08em',
               textTransform: 'uppercase',
               color: '#757575',
             }}>
@@ -67,9 +68,9 @@ function JobCard({ job }) {
             {/* Location */}
             <span className="flex items-center gap-1.5" style={{
               fontFamily: "'Orbitron', sans-serif",
-              fontSize: '0.48rem',
+              fontSize: '0.75rem',
               fontWeight: 700,
-              letterSpacing: '0.18em',
+              letterSpacing: '0.08em',
               textTransform: 'uppercase',
               color: '#757575',
             }}>
@@ -82,9 +83,9 @@ function JobCard({ job }) {
             {/* Type badge */}
             <span style={{
               fontFamily: "'Orbitron', sans-serif",
-              fontSize: '0.44rem',
+              fontSize: '0.75rem',
               fontWeight: 700,
-              letterSpacing: '0.18em',
+              letterSpacing: '0.08em',
               textTransform: 'uppercase',
               color: badge.color,
               background: badge.bg,
@@ -100,7 +101,7 @@ function JobCard({ job }) {
         <div className="flex items-center gap-2 flex-shrink-0 pt-1">
           <span style={{
             fontFamily: "'Orbitron', sans-serif",
-            fontSize: '0.44rem',
+            fontSize: '0.75rem',
             fontWeight: 700,
             letterSpacing: '0.18em',
             color: badge.color,
@@ -117,7 +118,7 @@ function JobCard({ job }) {
       {/* Expanded description */}
       {expanded && (
         <div style={{ borderTop: '1px solid rgba(0,51,153,0.08)' }}>
-          <div className="px-6 py-5">
+          <div className="px-4 sm:px-6 py-5">
             {/* Left accent bar + description */}
             <div style={{
               borderLeft: `3px solid ${badge.color}`,
@@ -139,10 +140,10 @@ function JobCard({ job }) {
             {/* Apply CTA */}
             <a
               href={`mailto:info@qpodtech.com?subject=Application for ${encodeURIComponent(job.title)}`}
-              className="inline-flex items-center gap-2.5 transition-all duration-200"
+              className="inline-flex min-h-11 max-w-full items-center gap-2.5 transition-all duration-200"
               style={{
                 fontFamily: "'Orbitron', sans-serif",
-                fontSize: '0.55rem',
+                fontSize: '0.75rem',
                 fontWeight: 700,
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
@@ -167,7 +168,7 @@ function JobCard({ job }) {
 /* ─── Empty state ─── */
 function EmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center py-24 text-center">
+    <div className="flex flex-col items-center justify-center py-16 sm:py-24 text-center">
       <div className="flex items-center justify-center w-16 h-16 mb-6" style={{
         background: '#f0f4ff',
         border: '1px solid rgba(0,51,153,0.15)',
@@ -205,11 +206,13 @@ function FilterChip({ label, active, onClick }) {
   return (
     <button
       onClick={onClick}
+      aria-pressed={active}
+      className="min-h-11 max-w-full break-words"
       style={{
         fontFamily: "'Orbitron', sans-serif",
-        fontSize: '0.46rem',
+        fontSize: '0.75rem',
         fontWeight: 700,
-        letterSpacing: '0.18em',
+        letterSpacing: '0.08em',
         textTransform: 'uppercase',
         padding: '6px 14px',
         border: active ? '1.5px solid #003399' : '1px solid rgba(0,51,153,0.2)',
@@ -264,7 +267,7 @@ export default function CareersPage() {
     : jobs.filter(j => j.department === activeFilter)
 
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="careers-page min-h-screen bg-white font-sans">
       <Navbar />
 
       {/* ── Hero banner ── */}
@@ -277,17 +280,10 @@ export default function CareersPage() {
         {/* Left accent rule */}
         <div className="absolute inset-y-0 left-0 w-1" style={{ background: 'linear-gradient(to bottom, #C00D5500, #C00D55, #C00D5500)' }} />
 
-        <div className="max-w-7xl mx-auto px-6 lg:px-14 py-20 lg:py-28 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-14 py-12 sm:py-20 lg:py-28 relative">
           <div className="flex items-center gap-3 mb-5">
             <span style={{ width: '28px', height: '2px', background: '#C00D55', flexShrink: 0 }} />
-            <span style={{
-              fontFamily: "'Orbitron', sans-serif",
-              fontSize: '0.52rem',
-              fontWeight: 700,
-              letterSpacing: '0.3em',
-              textTransform: 'uppercase',
-              color: '#C00D55',
-            }}>
+            <span className="section-label" style={{ color: '#C00D55' }}>
               Join The Team
             </span>
           </div>
@@ -317,7 +313,7 @@ export default function CareersPage() {
       </div>
 
       {/* ── Job listings ── */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-14 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-14 py-12 sm:py-16">
 
         {/* Department filters */}
         {!loading && jobs.length > 0 && (
@@ -364,7 +360,7 @@ export default function CareersPage() {
             {/* Results count */}
             <p style={{
               fontFamily: "'Orbitron', sans-serif",
-              fontSize: '0.46rem',
+              fontSize: '0.75rem',
               fontWeight: 700,
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
