@@ -247,7 +247,11 @@ export default function HeroSlider() {
               aria-label={paused ? 'Resume slideshow' : 'Pause slideshow'}
               aria-pressed={paused}
               className="min-h-11 px-3 text-sm text-white border border-white/30"
-              onClick={e => { e.stopPropagation(); setPaused(p => !p) }}>
+              onClick={e => {
+                e.stopPropagation()
+                if (paused) setFocusPaused(false)
+                setPaused(p => !p)
+              }}>
               {paused ? 'Resume' : 'Pause'}
             </button>
           </div>
