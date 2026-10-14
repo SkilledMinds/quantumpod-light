@@ -87,7 +87,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
 
         {/* Logo */}
-        <a href="/#home" onClick={goToSection('home')} className="flex items-center gap-2">
+        <a href={`${import.meta.env.BASE_URL}#home`} onClick={goToSection('home')} className="flex items-center gap-2">
           <img src={logoImg} alt="QuantumPod Logo" className="h-8 w-auto" style={{ mixBlendMode: 'multiply' }} />
           <span className="uppercase leading-none" style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: 900, fontSize: '1.05rem', background: 'linear-gradient(135deg, #0A3F8A 0%, #1A5FC1 45%, #3a7bd5 70%, #0A3F8A 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', letterSpacing: '0.06em' }}>
             QUANTUMPOD
@@ -99,7 +99,7 @@ export default function Navbar() {
         <nav className="hidden lg:flex items-center gap-0">
 
           {/* Home */}
-          <a href="/#home" onClick={goToSection('home')}
+          <a href={`${import.meta.env.BASE_URL}#home`} onClick={goToSection('home')}
             style={{ ...navLinkStyle, color: hoveredItem === 'Home' ? '#C00D55' : '#003399' }}
             onMouseEnter={() => setHoveredItem('Home')}
             onMouseLeave={() => setHoveredItem(null)}
@@ -201,7 +201,7 @@ export default function Navbar() {
                   <span style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.45rem', letterSpacing: '0.15em', color: '#9ca3af' }}>
                     QuantumPod Technologies · Unified Digital Partner
                   </span>
-                  <a href="/#contact" onClick={goToSection('contact', { closeDropdown: true })}
+                  <a href={`${import.meta.env.BASE_URL}#contact`} onClick={goToSection('contact', { closeDropdown: true })}
                     className="inline-flex items-center gap-1.5"
                     style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.48rem', fontWeight: 700, letterSpacing: '0.18em', color: '#C00D55', textDecoration: 'none' }}>
                     Talk to us <ArrowRight size={9} />
@@ -235,7 +235,7 @@ export default function Navbar() {
           </Link>
 
           {/* CTA */}
-          <a href="/#contact" onClick={goToSection('contact')}
+          <a href={`${import.meta.env.BASE_URL}#contact`} onClick={goToSection('contact')}
             className="ml-4 inline-flex items-center gap-2"
             style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#ffffff', padding: '9px 20px', background: '#C00D55', border: '1.5px solid #C00D55', textDecoration: 'none', transition: 'all 0.2s' }}
             onMouseEnter={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#C00D55' }}
@@ -274,7 +274,7 @@ export default function Navbar() {
             </a>
           ))}
           </div>
-          <a href="/#contact" onClick={goToSection('contact', { closeMobile: true })}
+          <a href={`${import.meta.env.BASE_URL}#contact`} onClick={goToSection('contact', { closeMobile: true })}
             className="mt-3 text-center inline-flex items-center justify-center gap-2"
             style={{ fontFamily: "'Orbitron', sans-serif", fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.18em', color: '#ffffff', padding: '11px', background: '#C00D55', textDecoration: 'none' }}>
             Get Started <ArrowRight size={11} />

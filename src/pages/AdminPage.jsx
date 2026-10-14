@@ -390,7 +390,7 @@ export default function AdminPage() {
   }, [])
 
   useEffect(() => {
-    if (authed) fetchJobs()
+    if (authed && supabase) fetchJobs()
   }, [authed, fetchJobs])
 
   /* Toggle is_active for a job — optimistic UI update */
@@ -444,6 +444,14 @@ export default function AdminPage() {
     setAuthed(false)
   }
 
+  if (!supabase) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ fontFamily: FONT_SG }}>
+        <p role="alert">Jobs administration is unavailable. Configure Supabase and rebuild the site.</p>
+      </div>
+    )
+  }
+
   if (!authed) return <LoginScreen onLogin={() => setAuthed(true)} />
 
   return (
@@ -477,7 +485,7 @@ export default function AdminPage() {
 
         <div className="flex items-center gap-3">
           {/* Link to public careers page */}
-          <a href="/careers" target="_blank" rel="noopener noreferrer"
+          <a href={`${import.meta.env.BASE_URL}careers`} target="_blank" rel="noopener noreferrer"
             style={{
               fontFamily: FONT_ORB, fontSize: '0.46rem', fontWeight: 700, letterSpacing: '0.16em',
               textTransform: 'uppercase', color: BLUE, textDecoration: 'none',
