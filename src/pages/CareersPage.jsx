@@ -233,6 +233,11 @@ export default function CareersPage() {
 
   useEffect(() => {
     async function fetchJobs() {
+      if (!supabase) {
+        setError('Job listings are temporarily unavailable. Please contact info@qpodtech.com.')
+        setLoading(false)
+        return
+      }
       setLoading(true)
       /* Fetch only active jobs, ordered newest first */
       const { data, error } = await supabase
